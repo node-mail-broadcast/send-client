@@ -1,28 +1,30 @@
 {
-  "name": "@trickfilm400/email-sender-client",
+  "name": "@node-mail-broadcast/send-client",
   "version": "1.0.0",
   "description": "Email-Sender-Client to send emails via rabbitmq",
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
-    "dev": "ts-node-dev --respawn --no-deps --rs --cls ./src/index.ts"
+    "dev": "ts-node-dev --respawn --no-deps --rs --cls ./src/index.ts",
+    "build": "tsc",
+    "eslint": "eslint src/**"
   },
   "keywords": [
     "template",
     "typescript"
   ],
   "author": "Nico Wagner",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/amqplib": "^0.8.2",
-    "@types/node": "^18.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.30.4",
-    "@typescript-eslint/parser": "^5.30.4",
-    "eslint": "^8.19.0",
+    "@types/node": "^18.6.3",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint": "^8.21.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
-    "ts-node": "^10.8.2",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4"
   },
