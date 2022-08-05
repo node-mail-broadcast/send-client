@@ -5,9 +5,11 @@ import { ConfirmChannel } from 'amqplib';
 export class EmailSenderClient {
   private connection: IAmqpConnectionManager;
   private readonly queue: string;
+  private urls: string[];
   private channel: ConfirmChannel;
 
   constructor(urls: string[], queue = 'emails', connect = true) {
+    this.urls = urls;
     this.queue = queue;
     if (connect) this.connect(urls);
   }
@@ -21,8 +23,9 @@ export class EmailSenderClient {
    * @version 1.0.0
    * @since 0.2.0 04.07.2021
    */
-  async connect(urls: string[]) {
-    this.connection = amqp.connect(urls);
+  async connect(urls?: string[]) {
+    if (urls) this.urls = urls;
+    this.connection = amqp.connect(this.urls);
     this.channel = await this.createChannelAndAssertQueue();
   }
 
