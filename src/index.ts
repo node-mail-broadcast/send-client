@@ -38,12 +38,12 @@ export class EmailSenderClient {
    * @since 0.0.2 04.07.2022
    */
   private createChannelAndAssertQueue(): Promise<ConfirmChannel> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.connection.createChannel({
         setup: (channel: ConfirmChannel) => {
           channel.assertQueue(this.queue).then((_e) => {
             resolve(channel);
-          });
+          }).catch(reject);
         },
       });
     });
