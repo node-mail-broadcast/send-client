@@ -29,9 +29,10 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "@node-mail-broadcast/node-mailer-ts-api": "^0.0.1-bcca5700247df55532877c9e405d1d9d8990bc1e",
     "amqp-connection-manager": "^4.1.9"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   }
 }

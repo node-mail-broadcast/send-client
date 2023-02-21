@@ -1,16 +1,27 @@
 import amqp from 'amqp-connection-manager';
 import { IAmqpConnectionManager } from 'amqp-connection-manager/dist/esm/AmqpConnectionManager';
 import { ConfirmChannel } from 'amqplib';
+import { Api } from './lib/Api';
+import { SendEmailByTemplatesIdRequest } from '@node-mail-broadcast/node-mailer-ts-api';
 
 export class EmailSenderClient {
   private connection: IAmqpConnectionManager;
   private readonly queue: string;
+  private apiUrl = 'http://rest-api';
   private urls: string[];
   private channel: ConfirmChannel;
+  private api: Api;
 
-  constructor(urls: string[], queue = 'emails', connect = true) {
+  constructor(
+    urls: string[],
+    apiUrl = 'http://rest-api',
+    queue = 'emails',
+    connect = true
+  ) {
+    this.apiUrl = apiUrl;
     this.urls = urls;
     this.queue = queue;
+    this.api = new Api(this.apiUrl);
     if (connect) this.connect(urls);
   }
 
@@ -24,6 +35,9 @@ export class EmailSenderClient {
    * @since 0.2.0 04.07.2021
    */
   async connect(urls?: string[]) {
+    //check if api is available
+    this.api.checkApiVersion();
+    //connect to amqp
     if (urls) this.urls = urls;
     this.connection = amqp.connect(this.urls);
     this.channel = await this.createChannelAndAssertQueue();
@@ -41,9 +55,12 @@ export class EmailSenderClient {
     return new Promise((resolve, reject) => {
       this.connection.createChannel({
         setup: (channel: ConfirmChannel) => {
-          channel.assertQueue(this.queue).then((_e) => {
-            resolve(channel);
-          }).catch(reject);
+          channel
+            .assertQueue(this.queue)
+            .then((_e) => {
+              resolve(channel);
+            })
+            .catch(reject);
         },
       });
     });
@@ -51,24 +68,28 @@ export class EmailSenderClient {
 
   /**
    * This function will send emails-infos into a queue which will be sent from another client
+   * @param method - Which send method to use
    * @param data - Data with email info to send
    * @author Nico W.
    * @async
-   * @version 1.0.0
+   * @version 1.1.0
    * @since 04.08.2022
    */
-  public sendEmail(data: {
-    content: Record<string, string>;
-    templateName: string;
-  }) {
+  public sendEmail(
+    method: 'HTTP' | 'AMQP',
+    data: SendEmailByTemplatesIdRequest
+  ) {
+    if (method === 'HTTP') {
+      return this.api.sendMail(data as SendEmailByTemplatesIdRequest);
+    }
     return new Promise((resolve, reject) => {
       this.channel.sendToQueue(
         this.queue,
         Buffer.from(JSON.stringify(data)),
         {},
-        (err, ok) => {
+        (err, _ok) => {
           if (err) return reject(err);
-          resolve(ok);
+          resolve(true);
         }
       );
     });
