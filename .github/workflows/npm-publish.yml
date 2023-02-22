@@ -11,6 +11,7 @@ jobs:
           cache: 'npm'
       - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
       - run: npm ci
+      - run: sed -i '$ d' .npmrc
       - run: npm run build
       - run: npm version prerelease --no-git-tag-version --preid ${{ github.ref_name }}-${{ github.sha }}
       - uses: JS-DevTools/npm-publish@v1
