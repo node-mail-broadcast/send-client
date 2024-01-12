@@ -23,4 +23,4 @@ emailClient.sendEmail({
 ```
 
 
-&copy; 2022
+&copy; 2022-2024

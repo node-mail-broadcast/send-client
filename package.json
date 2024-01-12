@@ -17,20 +17,20 @@
   "author": "Nico Wagner",
   "license": "MIT",
   "devDependencies": {
-    "@types/amqplib": "^0.10.1",
-    "@types/node": "^18.14.1",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
-    "eslint": "^8.34.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.4",
-    "ts-node": "^10.9.1",
+    "@types/amqplib": "^0.10.4",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.1.1",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@node-mail-broadcast/node-mailer-ts-api": "^0.0.1-bcca5700247df55532877c9e405d1d9d8990bc1e",
-    "amqp-connection-manager": "^4.1.10"
+    "amqp-connection-manager": "^4.1.14"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
